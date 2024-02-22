@@ -14,9 +14,18 @@ class Category {
 }
 
 class ToDo {
+  static int todoID = 1; 
+  int id;
   String title;
+  String? startDate;
+  String? endDate;
+  String? dateRange;
+  String? description;
 
   ToDo({
     required this.title,
-  });
+    this.startDate,
+    this.endDate,
+    this.description,
+  }) : id = todoID++; 
 }
