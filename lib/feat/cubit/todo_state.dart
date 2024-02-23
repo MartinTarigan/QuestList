@@ -1,7 +1,5 @@
 import 'package:questlist/feat/data/models/todo.dart';
 
-// todo_state.dart
-
 abstract class ToDoState {}
 
 class ToDoInitial extends ToDoState {
@@ -14,13 +12,27 @@ class ToDoListLoading extends ToDoState {
   String toString() => 'ToDoListLoading';
 }
 
-class ToDoListUpdated extends ToDoState {
+class ToDoDataLoaded extends ToDoState {
+  @override
+  String toString() => 'ToDoListLoading';
+}
+
+class CategoryListUpdated extends ToDoState {
   final List<Category> category;
 
-  ToDoListUpdated(this.category);
+  CategoryListUpdated(this.category);
 
   @override
-  String toString() => 'ToDoListUpdated { todos: $category }';
+  String toString() => 'CategoryListUpdated { category: $category }';
+}
+
+class ToDoListUpdated extends ToDoState {
+  final List<ToDo> todo;
+
+  ToDoListUpdated(this.todo);
+
+  @override
+  String toString() => 'ToDoListUpdated { todos: $todo }';
 }
 
 class ToDoListError extends ToDoState {
@@ -30,4 +42,22 @@ class ToDoListError extends ToDoState {
 
   @override
   String toString() => 'ToDoListError { error: $error }';
+}
+
+class ToDoCategorySelected extends ToDoState {
+  final Category category;
+
+  ToDoCategorySelected(this.category);
+
+  @override
+  String toString() => 'ToDoCategorySelected { category: $category }';
+}
+
+class TodaysToDoListUpdated extends ToDoState {
+  final List<ToDo> todaysToDos;
+
+  TodaysToDoListUpdated(this.todaysToDos);
+
+  @override
+  String toString() => 'TodaysToDoListUpdated { todaysToDos: $todaysToDos }';
 }
