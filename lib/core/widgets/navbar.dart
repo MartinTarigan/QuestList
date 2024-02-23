@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:questlist/app.dart';
 import 'package:questlist/core/theme/base_color.dart';
+import 'package:questlist/feat/screens/home_page.dart';
 
 class PersistentBottomNavPage extends StatelessWidget {
+  static const routeName = "/home_page"; // akses homepage via navbar
   final _tab1navigatorKey = GlobalKey<NavigatorState>();
   final _tab2navigatorKey = GlobalKey<NavigatorState>();
-  final _tab3navigatorKey = GlobalKey<NavigatorState>();
 
   PersistentBottomNavPage({Key? key}) : super(key: key);
 
@@ -14,22 +14,16 @@ class PersistentBottomNavPage extends StatelessWidget {
     return PersistentBottomBarScaffold(
       items: [
         PersistentTabItem(
-          tab: const ToDoListPage(),
+          tab: const HomePage(),
           icon: Icons.home_rounded,
           title: 'Home',
           navigatorkey: _tab1navigatorKey,
         ),
         PersistentTabItem(
-          tab: const ToDoListPage(),
-          icon: Icons.shopping_cart_rounded,
-          title: 'Order',
-          navigatorkey: _tab2navigatorKey,
-        ),
-        PersistentTabItem(
-          tab: const ToDoListPage(),
+          tab: const HomePage(),
           icon: Icons.person,
           title: 'Profile',
-          navigatorkey: _tab3navigatorKey,
+          navigatorkey: _tab2navigatorKey,
         ),
       ],
     );
@@ -183,10 +177,7 @@ class Page3 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('in $inTab Page 3'),
-            ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text('Go back'))
+            ElevatedButton(onPressed: () {}, child: const Text('Go back'))
           ],
         ),
       ),
@@ -235,9 +226,7 @@ class _PersistentBottomBarScaffoldState
             _selectedTab = index;
           });
         },
-        children: const [
-          ToDoListPage()
-        ],
+        children: const [HomePage()],
       ),
       extendBody: true,
       bottomNavigationBar: Stack(
@@ -268,7 +257,7 @@ class _PersistentBottomBarScaffoldState
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildNavItem(Icons.home_rounded, 'Home', 0),
-          _buildNavItem(Icons.person, 'Profile', 2),
+          _buildNavItem(Icons.person, 'Profile', 1),
         ],
       ),
     );
@@ -287,10 +276,11 @@ class _PersistentBottomBarScaffoldState
         children: <Widget>[
           Icon(icon,
               color: _selectedTab == index ? BaseColors.purple : Colors.grey),
-          Text(title,
-              style: TextStyle(
-                  color:
-                      _selectedTab == index ? BaseColors.purple : Colors.grey)),
+          Text(
+            title,
+            style: TextStyle(
+                color: _selectedTab == index ? BaseColors.purple : Colors.grey),
+          ),
         ],
       ),
     );
