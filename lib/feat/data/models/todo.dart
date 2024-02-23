@@ -1,31 +1,34 @@
 class Category {
+  static int categoryID = 1;
+  int id;
   String title;
   List<ToDo> todoList;
 
   Category({
     required this.title,
     List<ToDo>? todoList,
-  }) : todoList = todoList ?? [];
-
-  @override
-  String toString() {
-    return 'Category(title: $title, todoList: $todoList)';
-  }
+  })  : id = categoryID++,
+        todoList = todoList ?? [];
 }
 
 class ToDo {
-  static int todoID = 1; 
+  static int todoID = 1;
   int id;
+  Category category;
   String title;
-  String? startDate;
-  String? endDate;
-  String? dateRange;
-  String? description;
+  String? start;
+  String? end;
+  String? date;
+  String? notes;
+  bool isDone;
 
   ToDo({
     required this.title,
-    this.startDate,
-    this.endDate,
-    this.description,
-  }) : id = todoID++; 
+    required this.category,
+    this.start,
+    this.end,
+    this.date,
+    this.notes,
+    this.isDone = false,
+  }) : id = todoID++;
 }
