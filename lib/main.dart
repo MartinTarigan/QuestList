@@ -6,4 +6,3 @@ void main() {
   initializeDateFormatting('id_ID');
   runApp(const MyApp());
 }
-

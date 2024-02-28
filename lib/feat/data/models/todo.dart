@@ -20,7 +20,8 @@ class ToDo {
   String? end;
   String? date;
   String? notes;
-  bool isDone;
+  bool isCompleted;
+  bool isChecked;
 
   ToDo({
     required this.title,
@@ -29,6 +30,7 @@ class ToDo {
     this.end,
     this.date,
     this.notes,
-    this.isDone = false,
+    this.isCompleted = false,
+    this.isChecked = false,
   }) : id = todoID++;
 }

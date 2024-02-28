@@ -6,26 +6,46 @@ import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/core/widgets/input.dart';
 import 'package:questlist/feat/data/models/todo.dart';
 
-class AddToDoPage extends StatefulWidget {
-  static const routeName = "/add_todo";
-  final Category category;
-  const AddToDoPage({super.key, required this.category});
+class EditToDoPage extends StatefulWidget {
+  static const routeName = "/edit_todo";
+  final ToDo todo;
+  const EditToDoPage({super.key, required this.todo});
 
   @override
-  State<AddToDoPage> createState() => _AddToDoPageState();
+  State<EditToDoPage> createState() => _EditToDoPagePageState();
 }
 
-class _AddToDoPageState extends State<AddToDoPage> {
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController notesController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController startTimeController = TextEditingController();
-  final TextEditingController endTimeController = TextEditingController();
+class _EditToDoPagePageState extends State<EditToDoPage> {
+  late TextEditingController titleController = TextEditingController();
+  late TextEditingController notesController = TextEditingController();
+  late TextEditingController dateController = TextEditingController();
+  late TextEditingController startTimeController = TextEditingController();
+  late TextEditingController endTimeController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   DateTimeRange? pickedDate;
   TimeOfDay? pickedStartTime;
   TimeOfDay? pickedEndTime;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.todo.title);
+    notesController = TextEditingController(text: widget.todo.notes);
+    dateController = TextEditingController(text: widget.todo.date);
+    startTimeController = TextEditingController(text: widget.todo.start);
+    endTimeController = TextEditingController(text: widget.todo.end);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    notesController.dispose();
+    dateController.dispose();
+    startTimeController.dispose();
+    endTimeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +86,8 @@ class _AddToDoPageState extends State<AddToDoPage> {
                             "${DateFormat('dd/MM/yyyy').format(pickedDate!.start)} - ${DateFormat('dd/MM/yyyy').format(pickedDate!.end)}";
                       }
                     },
-                    formKey: formKey,
+            
+                    formKey: formKey
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +109,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
                                   "${pickedStartTime!.hour}:${pickedStartTime!.minute.toString().padLeft(2, '0')}";
                             }
                           },
-                          formKey: formKey,
+                          formKey: formKey
                         ),
                       ),
                       SizedBox(
@@ -108,7 +129,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
                                   "${pickedEndTime!.hour}:${pickedEndTime!.minute.toString().padLeft(2, '0')}";
                             }
                           },
-                          formKey: formKey,
+                          formKey: formKey
                         ),
                       ),
                     ],
@@ -117,23 +138,21 @@ class _AddToDoPageState extends State<AddToDoPage> {
                     controller: notesController,
                     label: "Notes",
                     maxLines: 4,
-                    formKey: formKey,
+                    formKey: formKey
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        context.read<ToDoCubitProvider>().getToDoData(
-                              context,
-                              titleController.text,
-                              widget.category,
-                              dateController.text,
-                              startTimeController.text,
-                              endTimeController.text,
-                              notesController.text,
-                            );
-
-                        Navigator.pop(context);
-                      }
+                      context.read<ToDoCubitProvider>().editToDo(
+                            widget.todo,
+                            titleController.text,
+                            dateController.text,
+                            startTimeController.text,
+                            endTimeController.text,
+                            notesController.text,
+                          );
+                      widget.todo.title = titleController.text;
+            
+                      Navigator.pop(context);
                     },
                     child: const Text("Add"),
                   ),

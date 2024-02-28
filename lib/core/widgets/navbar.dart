@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:questlist/core/theme/base_color.dart';
+import 'package:questlist/core/widgets/fab_homepage.dart';
+import 'package:questlist/core/widgets/fab_profile_page.dart';
 import 'package:questlist/feat/screens/home_page.dart';
+import 'package:questlist/feat/screens/profile_page.dart';
 
 class PersistentBottomNavPage extends StatelessWidget {
   static const routeName = "/home_page"; // akses homepage via navbar
@@ -20,7 +23,7 @@ class PersistentBottomNavPage extends StatelessWidget {
           navigatorkey: _tab1navigatorKey,
         ),
         PersistentTabItem(
-          tab: const HomePage(),
+          tab: const ProfilePage(),
           icon: Icons.person,
           title: 'Profile',
           navigatorkey: _tab2navigatorKey,
@@ -209,6 +212,7 @@ class _PersistentBottomBarScaffoldState
     _pageController = PageController();
   }
 
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -226,7 +230,7 @@ class _PersistentBottomBarScaffoldState
             _selectedTab = index;
           });
         },
-        children: const [HomePage()],
+        children: const [HomePage(), ProfilePage()],
       ),
       extendBody: true,
       bottomNavigationBar: Stack(
@@ -238,7 +242,11 @@ class _PersistentBottomBarScaffoldState
             bottom: 10,
             left: 0,
             right: 0,
-            child: Center(child: FAB()),
+            child: Center(
+              child: _selectedTab == 0
+                  ? const FABHomePage()
+                  : const FABProfilePage(),
+            ),
           ),
         ],
       ),

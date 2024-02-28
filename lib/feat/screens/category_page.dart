@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/theme/base_color.dart';
@@ -6,6 +8,7 @@ import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/todo.dart';
 import 'package:questlist/feat/screens/add_todo_page.dart';
+import 'package:questlist/feat/screens/category_todo_list.dart';
 
 class CategoryPage extends StatelessWidget {
   static const routeName = "/category_page";
@@ -20,19 +23,18 @@ class CategoryPage extends StatelessWidget {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
         var todaysToDos =
-            context.read<ToDoCubitProvider>().getTodaysToDos(category);
+            context.read<ToDoCubitProvider>().getCategoryTodaysToDos(category);
         return Scaffold(
           backgroundColor: BaseColors.neutral,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 70),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: MediaQuery.of(context).padding.top),
+                Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: BaseColors.primaryBlue,
@@ -40,20 +42,54 @@ class CategoryPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   width: 100,
-                                  child: Text(
-                                    category.title,
-                                    style: const TextStyle(
-                                        color: BaseColors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
+                                  height: 160,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => Navigator.pop(context),
+                                        child: ClipRect(
+                                          child: BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                                sigmaX: 5.0, sigmaY: 5.0),
+                                            child: Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8, top: 10, bottom: 10),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white
+                                                    .withOpacity(0.3),
+                                              ),
+                                              child: const Icon(
+                                                Icons.arrow_back_ios,
+                                                color: BaseColors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        category.title,
+                                        style: const TextStyle(
+                                            color: BaseColors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -69,95 +105,117 @@ class CategoryPage extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: BaseColors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          TotalToDoCategory(
+                        category: category,
+                      ),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(
+                        milliseconds: 300,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: BaseColors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: BaseColors.primaryBlue,
-                          ),
-                          child: const Icon(
-                            Icons.folder_rounded,
-                            color: BaseColors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            const Text(
-                              "Total Task",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                  color: Colors.grey),
-                            ),
-                            Text(
-                              category.todoList.length.toString(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: BaseColors.primaryBlue,
                               ),
+                              child: const Icon(
+                                Icons.folder_rounded,
+                                color: BaseColors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Total ToDo",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                      color: Colors.grey),
+                                ),
+                                Text(
+                                  category.todoList.length.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                  ),
+                                )
+                              ],
                             )
                           ],
-                        )
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: BaseColors.purple,
+                          ),
+                        ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.5),
-                          width: 2,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: BaseColors.purple,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                child: Text(
+                const SizedBox(height: 20),
+                const Text(
                   "Today ToDo",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 25,
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: ListView.separated(
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: ListView.separated(
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 10),
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: todaysToDos.length,
+                    itemCount:
+                        todaysToDos.where((todo) => !todo.isCompleted).length,
                     itemBuilder: (context, index) {
+                      todaysToDos = todaysToDos
+                          .where((todo) => !todo.isCompleted)
+                          .toList();
                       return ToDoContainer(
                         todo: todaysToDos[index],
                       );
-                    }),
-              )
-            ],
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -180,6 +238,7 @@ class CategoryPage extends StatelessWidget {
                 children: [
                   Text(
                     "Add New ToDo",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
