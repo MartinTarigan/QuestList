@@ -7,6 +7,7 @@ class InputField extends StatelessWidget {
   final bool autoFocus;
   final bool readOnly;
   final Function()? onTap;
+  final GlobalKey<FormState> formKey;
 
   const InputField({
     Key? key,
@@ -16,6 +17,7 @@ class InputField extends StatelessWidget {
     this.autoFocus = false,
     this.readOnly = false,
     this.onTap,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class InputField extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.teal), // Example color
+                  borderSide: BorderSide(color: Colors.teal),
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
                 errorBorder: const OutlineInputBorder(
@@ -62,7 +64,7 @@ class InputField extends StatelessWidget {
                 hintText: label,
                 labelStyle: const TextStyle(color: Color(0xFF8391A1)),
               ),
-              validator: (value) => _validateField(value, label),
+              validator: (value) => validateField(value, label),
             ),
           ),
         ],
@@ -70,7 +72,7 @@ class InputField extends StatelessWidget {
     );
   }
 
-  String? _validateField(String? value, String label) {
+  String? validateField(String? value, String label) {
     if (value == null || value.isEmpty) {
       return 'Please enter your $label';
     }
