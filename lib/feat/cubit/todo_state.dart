@@ -53,6 +53,11 @@ class ToDoCategorySelected extends ToDoState {
   String toString() => 'ToDoCategorySelected { category: $category }';
 }
 
+class ToDoMarkedAsCompleted extends ToDoState {
+  final ToDo completedTodo;
+  ToDoMarkedAsCompleted(this.completedTodo);
+}
+
 class TodaysToDoListUpdated extends ToDoState {
   final List<ToDo> todaysToDos;
 
