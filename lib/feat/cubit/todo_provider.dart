@@ -92,14 +92,12 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
 
   void deleteToDo(ToDo todo) async {
     Category targetedCategory = getCategory(todo.categoryID);
-    Future.delayed(
-      const Duration(seconds: 2),
-      () async {
-        targetedCategory.todoList.remove(todo);
-        await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
-        emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
-      },
-    );
+    if(todo.isCompleted) {
+      ToDoList.completedToDoList.add(todo);
+    }
+    targetedCategory.todoList.remove(todo);
+    await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
+    emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
   }
 
   void updateUIForCategory(Category category) {
@@ -123,12 +121,6 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
         .toList();
   }
 
-  List<ToDo> getCompletedToDos() {
-    return ToDoList.categoryList
-        .expand((category) => category.todoList)
-        .where((todo) => todo.isCompleted)
-        .toList();
-  }
 
   List<ToDo> getDashboardToDoList(String listName) {
     switch (listName) {
@@ -139,7 +131,7 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
       case "Scheduled":
         return getScheduledToDos();
       case "Completed":
-        return getCompletedToDos();
+        return ToDoList.completedToDoList;
       default:
         return [];
     }

@@ -4,6 +4,7 @@ import 'package:questlist/core/widgets/dashboard_widget.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/dashboard_item.dart';
+import 'package:questlist/feat/global/todo_list.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
@@ -37,7 +38,7 @@ class Dashboard extends StatelessWidget {
               ),
               const Spacer(),
               DashboardWidget(
-                list: context.read<ToDoCubitProvider>().getCompletedToDos(),
+                list: ToDoList.completedToDoList,
                 item: DashboardItem.itemList[2],
               ),
             ],

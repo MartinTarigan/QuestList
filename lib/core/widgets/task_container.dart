@@ -12,7 +12,7 @@ class ToDoContainer extends StatefulWidget {
   final ToDo todo;
   final bool isScheduledToDo;
 
-  ToDoContainer({
+  const ToDoContainer({
     Key? key,
     required this.todo,
     this.isScheduledToDo = false,
@@ -72,10 +72,15 @@ class _ToDoContainerState extends State<ToDoContainer> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 context
                                     .read<InteractionCubit>()
                                     .toggleButton(widget.todo);
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+                                context
+                                    .read<ToDoCubitProvider>()
+                                    .deleteToDo(widget.todo);
                               },
                               child: Container(
                                 width: 40,
