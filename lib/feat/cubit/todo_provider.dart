@@ -162,6 +162,13 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
   }
 
   void searchCategories(String searchText) {
-    
+    var filteredList = searchText.isEmpty
+        ? ToDoList.categoryList
+        : ToDoList.categoryList
+            .where((category) =>
+                category.title.toLowerCase().contains(searchText.toLowerCase()))
+            .toList();
+
+    emit(CategorySearchState(filteredCategories: filteredList));
   }
 }
