@@ -1,24 +1,42 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:questlist/core/utils/shared_pref.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/todo.dart';
 import 'package:questlist/feat/global/todo_list.dart';
 
 class ToDoCubitProvider extends Cubit<ToDoState> {
-  ToDoCubitProvider() : super(ToDoInitial());
+  ToDoCubitProvider() : super(ToDoInitial()) {
+    loadCategories();
+  }
 
-  void addCategory(Category category) {
+  List<Category>? originalCategoryList;
+
+  Future<void> loadCategories() async {
+    List<Category> categories = await SharedPreferencesHelper.loadCategories();
+    ToDoList.categoryList = categories;
+    emit(CategoryListUpdated(List.from(categories)));
+  }
+
+  void addCategory(Category category) async {
     ToDoList.categoryList.add(category);
+    await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
     emit(CategoryListUpdated(List.from(ToDoList.categoryList)));
   }
 
-  Category getCategory(Category category) {
-    return ToDoList.categoryList.firstWhere((elem) => elem == category);
+  void deleteCategory(Category category) async {
+    ToDoList.categoryList.remove(category);
+    await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
+    emit(CategoryListUpdated(List.from(ToDoList.categoryList)));
+  }
+
+  Category getCategory(int categoryID) {
+    return ToDoList.categoryList.firstWhere((elem) => elem.id == categoryID);
   }
 
   List<ToDo> getCategoryTodaysToDos(Category category) {
-    var targetedCategory = getCategory(category);
+    var targetedCategory = getCategory(category.id);
     var today = DateFormat('dd/MM/yyyy').format(DateTime.now());
     var todaysToDos = targetedCategory.todoList
         .where((todo) => todo.date?.split(" - ")[0] == today)
@@ -31,21 +49,21 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
   void getToDoData(
     BuildContext context,
     String title,
-    Category category,
+    int categoryID,
     String? date,
     String? start,
     String? end,
     String notes,
   ) {
     ToDo todo = ToDo(
-      category: category,
+      categoryID: categoryID,
       title: title,
       date: date,
       start: start,
       end: end,
       notes: notes,
     );
-    addToDo(category, todo);
+    addToDo(categoryID, todo);
     emit(ToDoDataLoaded());
   }
 
@@ -56,36 +74,32 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     String newStart,
     String newEnd,
     String newNotes,
-  ) {
+  ) async {
     todo.title = newTitle;
     todo.date = newDate;
     todo.start = newStart;
     todo.end = newEnd;
     todo.notes = newNotes;
+    await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
   }
 
-  void addToDo(Category category, ToDo todo) {
-    Category targetedCategory = getCategory(category);
+  void addToDo(int categoryId, ToDo todo) async {
+    Category targetedCategory = getCategory(categoryId);
     targetedCategory.todoList.add(todo);
+    await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
     emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
   }
 
-  void deleteToDo(ToDo todo) {
-    Category targetedCategory = getCategory(todo.category);
+  void deleteToDo(ToDo todo) async {
+    Category targetedCategory = getCategory(todo.categoryID);
     Future.delayed(
-      Duration(seconds: 2),
-      () {
-        print("a");
+      const Duration(seconds: 2),
+      () async {
         targetedCategory.todoList.remove(todo);
+        await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
         emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
       },
     );
-
-  }
-
-  void markAsCompleted(ToDo todo) {
-    todo.isCompleted = true;
-    emit(ToDoMarkedAsCompleted(todo));
   }
 
   void updateUIForCategory(Category category) {
@@ -124,9 +138,17 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
         return getTodaysToDo();
       case "Scheduled":
         return getScheduledToDos();
-      default:
+      case "Completed":
         return getCompletedToDos();
+      default:
+        return [];
     }
+  }
+
+   List<ToDo> updateDashboardToDoList(String listName) {
+    List<ToDo> todoList = getDashboardToDoList(listName);
+    emit(DashboardToDoListUpdated(todoList));
+    return todoList;
   }
 
   List<ToDo> getScheduledToDos() {
@@ -137,5 +159,9 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
       return dateA.compareTo(dateB);
     });
     return todos;
+  }
+
+  void searchCategories(String searchText) {
+    
   }
 }

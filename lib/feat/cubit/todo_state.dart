@@ -66,3 +66,14 @@ class TodaysToDoListUpdated extends ToDoState {
   @override
   String toString() => 'TodaysToDoListUpdated { todaysToDos: $todaysToDos }';
 }
+
+class DashboardToDoListUpdated extends ToDoState {
+  final List<ToDo> toDoList;
+  DashboardToDoListUpdated(this.toDoList);
+}
+
+class CategorySearchState extends ToDoState {
+  final List<Category> filteredCategories;
+
+  CategorySearchState({required this.filteredCategories});
+}
