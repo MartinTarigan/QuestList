@@ -35,111 +35,113 @@ class _AddToDoPageState extends State<AddToDoPage> {
           appBar: AppBar(
             title: const Text("Add Todo"),
           ),
-          body: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  InputField(
-                    controller: titleController,
-                    label: "Title",
-                    maxLines: 1,
-                    formKey: formKey,
-                    autoFocus: true,
-                  ),
-                  InputField(
-                    controller: dateController,
-                    label: "Date",
-                    maxLines: 1,
-                    readOnly: true,
-                    onTap: () async {
-                      pickedDate = await showDateRangePicker(
-                        context: context,
-                        initialDateRange: DateTimeRange(
-                            start: DateTime.now(),
-                            end: DateTime.now().add(const Duration(days: 1))),
-                        firstDate: DateTime(DateTime.now().year - 5),
-                        lastDate: DateTime(DateTime.now().year + 5),
-                      );
-                      if (pickedDate != null) {
-                        dateController.text =
-                            "${DateFormat('dd/MM/yyyy').format(pickedDate!.start)} - ${DateFormat('dd/MM/yyyy').format(pickedDate!.end)}";
-                      }
-                    },
-                    formKey: formKey,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: InputField(
-                          controller: startTimeController,
-                          label: "Start Time",
-                          maxLines: 1,
-                          readOnly: true,
-                          onTap: () async {
-                            pickedStartTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-                            if (pickedStartTime != null) {
-                              startTimeController.text =
-                                  "${pickedStartTime!.hour}:${pickedStartTime!.minute.toString().padLeft(2, '0')}";
-                            }
-                          },
-                          formKey: formKey,
+          body: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    InputField(
+                      controller: titleController,
+                      label: "Title",
+                      maxLines: 1,
+                      formKey: formKey,
+                      autoFocus: true,
+                    ),
+                    InputField(
+                      controller: dateController,
+                      label: "Date",
+                      maxLines: 1,
+                      readOnly: true,
+                      onTap: () async {
+                        pickedDate = await showDateRangePicker(
+                          context: context,
+                          initialDateRange: DateTimeRange(
+                              start: DateTime.now(),
+                              end: DateTime.now().add(const Duration(days: 1))),
+                          firstDate: DateTime(DateTime.now().year - 5),
+                          lastDate: DateTime(DateTime.now().year + 5),
+                        );
+                        if (pickedDate != null) {
+                          dateController.text =
+                              "${DateFormat('dd/MM/yyyy').format(pickedDate!.start)} - ${DateFormat('dd/MM/yyyy').format(pickedDate!.end)}";
+                        }
+                      },
+                      formKey: formKey,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          child: InputField(
+                            controller: startTimeController,
+                            label: "Start Time",
+                            maxLines: 1,
+                            readOnly: true,
+                            onTap: () async {
+                              pickedStartTime = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                              if (pickedStartTime != null) {
+                                startTimeController.text =
+                                    "${pickedStartTime!.hour}:${pickedStartTime!.minute.toString().padLeft(2, '0')}";
+                              }
+                            },
+                            formKey: formKey,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: InputField(
-                          controller: endTimeController,
-                          label: "End Time",
-                          maxLines: 1,
-                          readOnly: true,
-                          onTap: () async {
-                            pickedEndTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-                            if (pickedEndTime != null) {
-                              endTimeController.text =
-                                  "${pickedEndTime!.hour}:${pickedEndTime!.minute.toString().padLeft(2, '0')}";
-                            }
-                          },
-                          formKey: formKey,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          child: InputField(
+                            controller: endTimeController,
+                            label: "End Time",
+                            maxLines: 1,
+                            readOnly: true,
+                            onTap: () async {
+                              pickedEndTime = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                              if (pickedEndTime != null) {
+                                endTimeController.text =
+                                    "${pickedEndTime!.hour}:${pickedEndTime!.minute.toString().padLeft(2, '0')}";
+                              }
+                            },
+                            formKey: formKey,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  InputField(
-                    controller: notesController,
-                    label: "Notes",
-                    maxLines: 4,
-                    formKey: formKey,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      print(widget.category.id);
-                      if (formKey.currentState!.validate()) {
-                        context.read<ToDoCubitProvider>().getToDoData(
-                              context,
-                              titleController.text,
-                              widget.category.id,
-                              dateController.text,
-                              startTimeController.text,
-                              endTimeController.text,
-                              notesController.text,
-                            );
+                      ],
+                    ),
+                    InputField(
+                      controller: notesController,
+                      label: "Notes",
+                      maxLines: 4,
+                      formKey: formKey,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        print(widget.category.id);
+                        if (formKey.currentState!.validate()) {
+                          context.read<ToDoCubitProvider>().getToDoData(
+                                context,
+                                titleController.text,
+                                widget.category.id,
+                                dateController.text,
+                                startTimeController.text,
+                                endTimeController.text,
+                                notesController.text,
+                              );
 
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: const Text("Add"),
-                  ),
-                ],
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text("Add"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
