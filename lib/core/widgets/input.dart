@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:questlist/core/constant/typography.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController? controller;
@@ -29,10 +30,7 @@ class InputField extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Font.tertiaryBodyMedium,
           ),
           const SizedBox(height: 5),
           SizedBox(

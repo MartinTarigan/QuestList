@@ -9,12 +9,25 @@ class Category {
     List<ToDo>? todoList,
   })  : id = categoryID++,
         todoList = todoList ?? [];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'todoList': todoList.map((todo) => todo.toJson()).toList(),
+      };
+
+  static Category fromJson(Map<String, dynamic> json) => Category(
+        title: json['title'],
+        todoList: (json['todoList'] as List)
+            .map((item) => ToDo.fromJson(item))
+            .toList(),
+      );
 }
 
 class ToDo {
   static int todoID = 1;
   int id;
-  Category category;
+  int categoryID;
   String title;
   String? start;
   String? end;
@@ -25,7 +38,7 @@ class ToDo {
 
   ToDo({
     required this.title,
-    required this.category,
+    required this.categoryID,
     this.start,
     this.end,
     this.date,
@@ -33,4 +46,27 @@ class ToDo {
     this.isCompleted = false,
     this.isChecked = false,
   }) : id = todoID++;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'categoryID': categoryID,
+        'title': title,
+        'start': start,
+        'end': end,
+        'date': date,
+        'notes': notes,
+        'isCompleted': isCompleted,
+        'isChecked': isChecked,
+      };
+
+  static ToDo fromJson(Map<String, dynamic> json) => ToDo(
+        title: json['title'],
+        categoryID: json['categoryID'] ?? 0,
+        start: json['start'],
+        end: json['end'],
+        date: json['date'],
+        notes: json['notes'],
+        isCompleted: json['isCompleted'],
+        isChecked: json['isChecked'],
+      );
 }

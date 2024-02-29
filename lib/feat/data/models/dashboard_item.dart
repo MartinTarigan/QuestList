@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:questlist/core/theme/base_color.dart';
 
@@ -15,12 +13,12 @@ class DashboardItem {
       icon: Icons.calendar_month_sharp,
     ),
     Item(
-      itemName: "Scheduled",
+      itemName: "Completed",
       color: BaseColors.primaryBlue,
       icon: Icons.alarm_on,
     ),
     Item(
-      itemName: "Completed",
+      itemName: "Scheduled",
       color: BaseColors.primaryBlue,
       icon: Icons.alarm,
     ),

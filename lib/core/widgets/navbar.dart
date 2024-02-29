@@ -212,7 +212,6 @@ class _PersistentBottomBarScaffoldState
     _pageController = PageController();
   }
 
-
   @override
   void dispose() {
     _pageController.dispose();

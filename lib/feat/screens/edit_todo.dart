@@ -53,7 +53,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Add Todo"),
+            title: const Text("Edit Todo"),
           ),
           body: Form(
             key: formKey,
@@ -86,8 +86,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                             "${DateFormat('dd/MM/yyyy').format(pickedDate!.start)} - ${DateFormat('dd/MM/yyyy').format(pickedDate!.end)}";
                       }
                     },
-            
-                    formKey: formKey
+                    formKey: formKey,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +108,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                                   "${pickedStartTime!.hour}:${pickedStartTime!.minute.toString().padLeft(2, '0')}";
                             }
                           },
-                          formKey: formKey
+                          formKey: formKey,
                         ),
                       ),
                       SizedBox(
@@ -129,7 +128,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                                   "${pickedEndTime!.hour}:${pickedEndTime!.minute.toString().padLeft(2, '0')}";
                             }
                           },
-                          formKey: formKey
+                          formKey: formKey,
                         ),
                       ),
                     ],
@@ -138,7 +137,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                     controller: notesController,
                     label: "Notes",
                     maxLines: 4,
-                    formKey: formKey
+                    formKey: formKey,
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -151,10 +150,10 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                             notesController.text,
                           );
                       widget.todo.title = titleController.text;
-            
+
                       Navigator.pop(context);
                     },
-                    child: const Text("Add"),
+                    child: const Text("Save"),
                   ),
                 ],
               ),

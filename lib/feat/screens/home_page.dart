@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/constant/profile.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/todo_dashboard.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
@@ -9,9 +10,16 @@ import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/global/todo_list.dart';
 import 'package:questlist/feat/screens/category_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = "/home_page";
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +27,11 @@ class HomePage extends StatelessWidget {
       backgroundColor: BaseColors.neutral,
       body: BlocBuilder<ToDoCubitProvider, ToDoState>(
         builder: (context, state) {
-          var todayToDos = ToDoList.categoryList;
+          var categoryList = ToDoList.categoryList;
+
+          if (state is CategorySearchState) {
+            categoryList = state.filteredCategories;
+          }
           return Stack(
             children: [
               Positioned(
@@ -40,36 +52,38 @@ class HomePage extends StatelessWidget {
                         bottom: 20),
                     child: Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: BaseColors.primaryBlue),
-                          child: Text(
-                            Developer.name.substring(0, 1),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text('Welcome,',
-                                style: TextStyle(
-                                  color: BaseColors.primaryGrey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                )),
-                            Text(
-                              Developer.nickname,
-                              style: TextStyle(
-                                color: BaseColors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
+                            Container(
+                              padding: const EdgeInsets.all(15),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: BaseColors.primaryBlue),
+                              child: Text(
+                                Developer.name.substring(0, 1),
+                                style: Font.primaryBodyLarge,
                               ),
                             ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Welcome,',
+                                  style: TextStyle(
+                                    color: BaseColors.tertiaryGrey,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  Developer.nickname,
+                                  style: Font.primaryBodyLarge,
+                                ),
+                              ],
+                            )
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -78,7 +92,40 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildSearch(context),
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: TextField(
+                            controller: searchController,
+                            onChanged: (value) =>
+                                BlocProvider.of<ToDoCubitProvider>(context)
+                                    .searchCategories(value),
+                            textAlignVertical: TextAlignVertical.bottom,
+                            decoration: const InputDecoration(
+                              fillColor: Color(0xFFFFFFFF),
+                              filled: true,
+                              prefixIcon: Icon(
+                                Icons.search,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFFF7F8F9),
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFFF7F8F9)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                              ),
+                              hintText: 'Search Categories',
+                            ),
+                          ),
+                        ),
                         GestureDetector(
                           child: Container(
                             padding: const EdgeInsets.all(12),
@@ -95,17 +142,10 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(
+                  Padding(
+                    padding: const EdgeInsets.only(
                         right: 25, left: 25, top: 20, bottom: 10),
-                    child: Text(
-                      'Your Quest',
-                      style: TextStyle(
-                        color: BaseColors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25,
-                      ),
-                    ),
+                    child: Text('Your Quest', style: Font.heading1),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -123,18 +163,14 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 25,
                       vertical: 15,
                     ),
                     child: Text(
                       "Your Categories",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: BaseColors.black,
-                      ),
+                      style: Font.heading2,
                     ),
                   ),
                   Container(
@@ -142,9 +178,9 @@ class HomePage extends StatelessWidget {
                     height: 170,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: todayToDos.length,
+                      itemCount: categoryList.length,
                       itemBuilder: (context, index) {
-                        final category = todayToDos[index];
+                        final category = categoryList[index];
                         return Container(
                           width: 250,
                           margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -163,23 +199,24 @@ class HomePage extends StatelessWidget {
                                       width: 100,
                                       child: Text(
                                         category.title,
-                                        style: const TextStyle(
-                                            color: BaseColors.white,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20),
+                                        style: Font.primaryBodyLarge,
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                       ),
                                     ),
                                     Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                        ),
-                                        child: Text(category.todoList.isEmpty
-                                            ? "0 tasks"
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 5,
+                                      ),
+                                      child: Text(
+                                        category.todoList.isEmpty
+                                            ? "0 task"
                                             : category.todoList.length == 1
-                                                ? "1 task"
-                                                : "${category.todoList.length} tasks")),
+                                                ? "1 tasks"
+                                                : "${category.todoList.length} tasks",
+                                        style: Font.primaryBodySmall,
+                                      ),
+                                    ),
                                     GestureDetector(
                                       onTap: () => Navigator.pushNamed(
                                           context, CategoryPage.routeName,
@@ -190,8 +227,26 @@ class HomePage extends StatelessWidget {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 5, horizontal: 20),
                                           color: BaseColors.purple,
-                                          child: const Text(
+                                          child: Text(
                                             'Detail',
+                                            style: Font.primaryBodyMedium,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    GestureDetector(
+                                      onTap: () => context
+                                          .read<ToDoCubitProvider>()
+                                          .deleteCategory(category),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 20),
+                                          color: BaseColors.red,
+                                          child: const Text(
+                                            'Delete',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -200,7 +255,7 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -220,40 +275,6 @@ class HomePage extends StatelessWidget {
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget buildSearch(context) {
-    return SizedBox(
-      height: 48,
-      width: MediaQuery.of(context).size.width / 1.5,
-      child: const TextField(
-        readOnly: true,
-        textAlignVertical: TextAlignVertical.bottom,
-        //TODO: develop search feature
-        decoration: InputDecoration(
-          fillColor: Color(0xFFFFFFFF),
-          filled: true,
-          prefixIcon: Icon(
-            Icons.search,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFFF7F8F9),
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFF7F8F9)),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-          ),
-          hintText: 'Search Categories',
-        ),
       ),
     );
   }

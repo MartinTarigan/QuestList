@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/task_container.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
@@ -82,10 +83,7 @@ class CategoryPage extends StatelessWidget {
                                       ),
                                       Text(
                                         category.title,
-                                        style: const TextStyle(
-                                            color: BaseColors.white,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20),
+                                        style: Font.primaryBodyLarge,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                       ),
@@ -151,19 +149,13 @@ class CategoryPage extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   "Total ToDo",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
-                                      color: Colors.grey),
+                                  style: Font.secondaryBodyMedium,
                                 ),
                                 Text(
                                   category.todoList.length.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  ),
+                                  style: Font.tertiaryBodyMedium,
                                 )
                               ],
                             )
@@ -188,15 +180,12 @@ class CategoryPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   "Today ToDo",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25,
-                  ),
+                  style: Font.heading2,
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: ListView.separated(
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 10),
@@ -233,20 +222,16 @@ class CategoryPage extends StatelessWidget {
                   arguments: category,
                 );
               },
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Add New ToDo",
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: BaseColors.white,
-                    ),
+                    style: Font.primaryBodyLarge,
                   ),
-                  SizedBox(width: 10),
-                  Icon(
+                  const SizedBox(width: 10),
+                  const Icon(
                     Icons.edit,
                     color: BaseColors.white,
                   ),

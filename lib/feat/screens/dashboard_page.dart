@@ -2,30 +2,41 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/task_container.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
+import 'package:questlist/feat/data/models/dashboard_item.dart';
+import 'package:questlist/feat/data/models/todo.dart';
 
 class DashbordPage extends StatelessWidget {
   static const routeName = "/dashboard_page";
-  final String listName;
-  const DashbordPage({super.key, required this.listName});
+  final Item item;
+  const DashbordPage({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    bool isScheduledPage = item.itemName == "Scheduled";
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ToDoCubitProvider>().updateDashboardToDoList(item.itemName);
+    });
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        var todoList =
-            context.read<ToDoCubitProvider>().getDashboardToDoList(listName);
-
+        List<ToDo> todoList = [];
+        if (state is DashboardToDoListUpdated) {
+          todoList = context
+              .read<ToDoCubitProvider>()
+              .updateDashboardToDoList(item.itemName);
+        }
         return Scaffold(
           body: Stack(
             children: [
               Positioned(
                 top: 0,
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 3.5,
                   width: MediaQuery.of(context).size.width,
                   color: BaseColors.purple,
                   padding: EdgeInsets.only(
@@ -57,10 +68,19 @@ class DashbordPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Column(
+                      const SizedBox(width: 15),
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          
+                          Icon(
+                            item.icon,
+                            color: BaseColors.white,
+                            size: 100,
+                          ),
+                          Text(
+                            item.itemName,
+                            style: Font.heading1,
+                          ),
                         ],
                       )
                     ],
@@ -68,9 +88,10 @@ class DashbordPage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height / 3 - 30,
+                top: MediaQuery.of(context).size.height / 3.5 - 30,
                 bottom: 0,
                 child: Container(
+                  padding: const EdgeInsets.only(right: 20, left: 20, top: 20),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     color: BaseColors.neutral,
@@ -86,7 +107,19 @@ class DashbordPage extends StatelessWidget {
                     itemCount: todoList.length,
                     itemBuilder: (context, index) {
                       final todo = todoList[index];
-                      return ToDoContainer(todo: todo);
+                      String date = todo.date.toString().split(" - ")[0];
+                      DateTime dateTime = DateFormat("dd/MM/yyyy").parse(date);
+                      date = DateFormat("dd MMM yyyy").format(dateTime);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          isScheduledPage ? Text(date) : Container(),
+                          ToDoContainer(
+                            todo: todo,
+                            isScheduledToDo: item.itemName == "Scheduled",
+                          ),
+                        ],
+                      );
                     },
                   ),
                 ),

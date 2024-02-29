@@ -145,7 +145,7 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     }
   }
 
-   List<ToDo> updateDashboardToDoList(String listName) {
+  List<ToDo> updateDashboardToDoList(String listName) {
     List<ToDo> todoList = getDashboardToDoList(listName);
     emit(DashboardToDoListUpdated(todoList));
     return todoList;

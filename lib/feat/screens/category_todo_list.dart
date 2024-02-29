@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/task_container.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
@@ -18,15 +19,16 @@ class TotalToDoCategory extends StatelessWidget {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
         final sortedTodoList = List<ToDo>.from(category.todoList)
-          ..sort((a, b) {
-            if (!a.isCompleted && b.isCompleted) {
-              return -1; 
-            } else if (a.isCompleted && !b.isCompleted) {
-              return 1; 
-            }
-            return 0; 
-          });
-
+          ..sort(
+            (a, b) {
+              if (!a.isCompleted && b.isCompleted) {
+                return -1;
+              } else if (a.isCompleted && !b.isCompleted) {
+                return 1;
+              }
+              return 0;
+            },
+          );
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -81,10 +83,7 @@ class TotalToDoCategory extends StatelessWidget {
                                   ),
                                   Text(
                                     category.title,
-                                    style: const TextStyle(
-                                        color: BaseColors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
+                                    style: Font.primaryBodyLarge,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),
@@ -106,10 +105,7 @@ class TotalToDoCategory extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     "${category.title}'s ToDo List",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25,
-                    ),
+                    style: Font.heading2,
                   ),
                 ),
                 Expanded(

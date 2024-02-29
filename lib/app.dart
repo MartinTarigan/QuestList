@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/feat/cubit/interaction.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
+import 'package:questlist/feat/data/models/dashboard_item.dart';
 import 'package:questlist/feat/data/models/todo.dart';
 import 'package:questlist/feat/screens/add_todo_page.dart';
 import 'package:questlist/feat/screens/category_page.dart';
@@ -54,9 +55,9 @@ class MyApp extends StatelessWidget {
                 category:
                     ModalRoute.of(context)?.settings.arguments as Category,
               ),
-          DashbordPage.routeName:(context) => DashbordPage(
-            listName: ModalRoute.of(context)?.settings.arguments as String,
-          )
+          DashbordPage.routeName: (context) => DashbordPage(
+                item: ModalRoute.of(context)?.settings.arguments as Item,
+              )
         },
       ),
     );

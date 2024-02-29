@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:questlist/core/constant/assets.dart';
 import 'package:questlist/core/constant/profile.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -30,29 +31,22 @@ class ProfilePage extends StatelessWidget {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         Developer.name,
-                        style: TextStyle(
-                          color: BaseColors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Font.heading2,
                       ),
                       Text(
                         "${Developer.role1} - ${Developer.role2}",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Font.secondaryBodySmall,
                       ),
-                      SizedBox(height: 20),
-                      Text(Developer.description)
+                      const SizedBox(height: 20),
+                      const Text(Developer.description)
                     ],
                   ),
                 ),

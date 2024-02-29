@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/feat/data/models/dashboard_item.dart';
 import 'package:questlist/feat/data/models/todo.dart';
@@ -20,7 +21,7 @@ class DashboardWidget extends StatelessWidget {
         Navigator.pushNamed(
           context,
           DashbordPage.routeName,
-          arguments: item.itemName,
+          arguments: item,
         );
       },
       child: Container(
@@ -58,11 +59,7 @@ class DashboardWidget extends StatelessWidget {
             ),
             Text(
               item.itemName,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color.fromARGB(255, 139, 137, 137),
-              ),
+              style: Font.heading3,
             )
           ],
         ),

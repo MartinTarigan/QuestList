@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:questlist/core/constant/profile.dart';
+import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 
 class FABProfilePage extends StatefulWidget {
@@ -30,55 +31,49 @@ class _FABProfilePageState extends State<FABProfilePage> {
                   TextButton(
                     child: const Text('Close'),
                     onPressed: () {
-                      Navigator.of(context).pop(); 
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
-                content: const SingleChildScrollView(
+                content: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Get In Touch",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        style: Font.tertiaryBodyLarge,
                       ),
-                      SizedBox(height: 5),
-                      ProfileAttributeWidget(
+                      const SizedBox(height: 5),
+                      const ProfileAttributeWidget(
                         keyName: 'Email',
                         value: Developer.email,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'Instagram',
                         value: Developer.instagram,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'LinkedIn',
                         value: Developer.linkedin,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         "Trivial",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        style: Font.tertiaryBodyLarge,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'Hobbies',
                         value: Developer.hobby,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'Zodiac',
                         value: Developer.zodiac,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'Fun Fact',
                         value: Developer.funFact,
                       ),
-                      ProfileAttributeWidget(
+                      const ProfileAttributeWidget(
                         keyName: 'Favorite Quotes',
                         value: Developer.favQuote,
                       ),
@@ -116,10 +111,7 @@ class ProfileAttributeWidget extends StatelessWidget {
         children: [
           Text(
             keyName,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
+            style: Font.tertiaryBodyMedium,
           ),
           const SizedBox(height: 5),
           Container(

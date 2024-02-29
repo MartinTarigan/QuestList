@@ -46,6 +46,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
                     label: "Title",
                     maxLines: 1,
                     formKey: formKey,
+                    autoFocus: true,
                   ),
                   InputField(
                     controller: dateController,
@@ -121,11 +122,12 @@ class _AddToDoPageState extends State<AddToDoPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      print(widget.category.id);
                       if (formKey.currentState!.validate()) {
                         context.read<ToDoCubitProvider>().getToDoData(
                               context,
                               titleController.text,
-                              widget.category,
+                              widget.category.id,
                               dateController.text,
                               startTimeController.text,
                               endTimeController.text,
