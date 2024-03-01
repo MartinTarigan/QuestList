@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:questlist/core/constant/typography.dart';
+import 'package:questlist/core/theme/base_color.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController? controller;
@@ -30,7 +31,7 @@ class InputField extends StatelessWidget {
         children: [
           Text(
             label,
-            style: Font.tertiaryBodyMedium,
+            style: Font.tertiaryBodyLarge,
           ),
           const SizedBox(height: 5),
           SizedBox(
@@ -45,19 +46,19 @@ class InputField extends StatelessWidget {
                 filled: true,
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFDADADA)),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.teal),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderSide: BorderSide(color: BaseColors.primaryBlue),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 errorBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderSide: BorderSide(color: BaseColors.red),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 focusedErrorBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderSide: BorderSide(color: BaseColors.red),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 hintText: label,
                 labelStyle: const TextStyle(color: Color(0xFF8391A1)),

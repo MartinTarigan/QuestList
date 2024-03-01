@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/feat/cubit/interaction.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/todo.dart';
@@ -29,7 +28,7 @@ class _ToDoContainerState extends State<ToDoContainer> {
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        return BlocBuilder<InteractionCubit, bool>(builder: (context, _) {
+        return BlocBuilder<ToDoCubitProvider, ToDoState>(builder: (context, _) {
           return Stack(
             clipBehavior: Clip.none,
             children: [
@@ -74,10 +73,11 @@ class _ToDoContainerState extends State<ToDoContainer> {
                             GestureDetector(
                               onTap: () async {
                                 context
-                                    .read<InteractionCubit>()
-                                    .toggleButton(widget.todo);
+                                    .read<ToDoCubitProvider>()
+                                    .markAsCompleted(widget.todo);
                                 await Future.delayed(
-                                    const Duration(seconds: 1));
+                                  const Duration(seconds: 1),
+                                );
                                 context
                                     .read<ToDoCubitProvider>()
                                     .deleteToDo(widget.todo);

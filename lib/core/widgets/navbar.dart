@@ -243,7 +243,7 @@ class _PersistentBottomBarScaffoldState
             right: 0,
             child: Center(
               child: _selectedTab == 0
-                  ? const FABHomePage()
+                  ? FABHomePage()
                   : const FABProfilePage(),
             ),
           ),

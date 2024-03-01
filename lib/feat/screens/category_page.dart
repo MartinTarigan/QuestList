@@ -38,7 +38,7 @@ class CategoryPage extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: BaseColors.primaryBlue,
+                        color: category.color,
                       ),
                       child: Row(
                         children: [
@@ -225,10 +225,12 @@ class CategoryPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Add New ToDo",
-                    overflow: TextOverflow.ellipsis,
-                    style: Font.primaryBodyLarge,
+                  Flexible(
+                    child: Text(
+                      "Add New ToDo",
+                      overflow: TextOverflow.ellipsis,
+                      style: Font.primaryBodyLarge,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   const Icon(

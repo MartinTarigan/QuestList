@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:questlist/core/constant/assets.dart';
 import 'package:questlist/core/constant/profile.dart';
 import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
@@ -174,106 +175,135 @@ class _HomePageState extends State<HomePage> {
                         style: Font.heading2,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      height: 170,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categoryList.length,
-                        itemBuilder: (context, index) {
-                          final category = categoryList[index];
-                          return Container(
-                            width: 250,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: BaseColors.primaryBlue,
-                            ),
-                            child: Row(
+                    categoryList.isEmpty
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        child: Text(
-                                          category.title,
-                                          style: Font.primaryBodyLarge,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                        ),
-                                        child: Text(
-                                          category.todoList.isEmpty
-                                              ? "0 task"
-                                              : category.todoList.length == 1
-                                                  ? "1 tasks"
-                                                  : "${category.todoList.length} tasks",
-                                          style: Font.primaryBodySmall,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () => Navigator.pushNamed(
-                                            context, CategoryPage.routeName,
-                                            arguments: category),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 20),
-                                            color: BaseColors.purple,
-                                            child: Text(
-                                              'Detail',
-                                              style: Font.primaryBodyMedium,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      GestureDetector(
-                                        onTap: () => context
-                                            .read<ToDoCubitProvider>()
-                                            .deleteCategory(category),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 20),
-                                            color: BaseColors.red,
-                                            child: const Text(
-                                              'Delete',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                Image.asset(
+                                  Assets.emptyList,
+                                  scale: 6,
                                 ),
-                                const Icon(
-                                  Icons.list_alt_rounded,
-                                  size: 110,
-                                  color: Colors.white,
+                                Text(
+                                  "Your Category List is Empty",
+                                  style: Font.heading3,
                                 )
                               ],
+                            )),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            height: 170,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: categoryList.length,
+                              itemBuilder: (context, index) {
+                                final category = categoryList[index];
+                                return Container(
+                                  width: 250,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: category.color,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                              child: Text(
+                                                category.title,
+                                                style: Font.primaryBodyLarge,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 5,
+                                              ),
+                                              child: Text(
+                                                category.todoList.isEmpty
+                                                    ? "0 task"
+                                                    : category.todoList
+                                                                .length ==
+                                                            1
+                                                        ? "1 tasks"
+                                                        : "${category.todoList.length} tasks",
+                                                style: Font.primaryBodySmall,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () => Navigator.pushNamed(
+                                                  context,
+                                                  CategoryPage.routeName,
+                                                  arguments: category),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 20),
+                                                  color: BaseColors.purple,
+                                                  child: Text(
+                                                    'Detail',
+                                                    style:
+                                                        Font.primaryBodyMedium,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            GestureDetector(
+                                              onTap: () => context
+                                                  .read<ToDoCubitProvider>()
+                                                  .deleteCategory(category),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 20),
+                                                  color: BaseColors.red,
+                                                  child: const Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.list_alt_rounded,
+                                        size: 110,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
                   ],
                 ),
               ],

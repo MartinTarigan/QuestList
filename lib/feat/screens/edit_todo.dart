@@ -67,6 +67,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                       label: "Title",
                       maxLines: 1,
                       formKey: formKey,
+                      autoFocus: true,
                     ),
                     InputField(
                       controller: dateController,
@@ -151,7 +152,7 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                               notesController.text,
                             );
                         widget.todo.title = titleController.text;
-            
+
                         Navigator.pop(context);
                       },
                       child: const Text("Save"),
