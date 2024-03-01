@@ -242,9 +242,7 @@ class _PersistentBottomBarScaffoldState
             left: 0,
             right: 0,
             child: Center(
-              child: _selectedTab == 0
-                  ? FABHomePage()
-                  : const FABProfilePage(),
+              child: _selectedTab == 0 ? FABHomePage() : const FABProfilePage(),
             ),
           ),
         ],
@@ -255,15 +253,16 @@ class _PersistentBottomBarScaffoldState
   Widget _buildBottomNavigationBar(double bottomPadding) {
     return Container(
       padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _buildNavItem(Icons.home_rounded, 'Home', 0),
+          const SizedBox(width: 10),
           _buildNavItem(Icons.person, 'Profile', 1),
         ],
       ),
