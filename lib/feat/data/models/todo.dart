@@ -1,11 +1,15 @@
+import 'dart:ui';
+
 class Category {
   static int categoryID = 1;
   int id;
   String title;
+  Color color;
   List<ToDo> todoList;
 
   Category({
     required this.title,
+    required this.color,
     List<ToDo>? todoList,
   })  : id = categoryID++,
         todoList = todoList ?? [];
@@ -13,11 +17,13 @@ class Category {
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
+        'color': color.value,
         'todoList': todoList.map((todo) => todo.toJson()).toList(),
       };
 
   static Category fromJson(Map<String, dynamic> json) => Category(
         title: json['title'],
+        color: Color(json['color']),
         todoList: (json['todoList'] as List)
             .map((item) => ToDo.fromJson(item))
             .toList(),

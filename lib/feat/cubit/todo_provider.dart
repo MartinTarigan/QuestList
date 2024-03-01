@@ -100,6 +100,13 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
   }
 
+  void markAsCompleted(ToDo todo) async {
+    todo.isChecked = !todo.isChecked;
+    await Future.delayed(const Duration(seconds: 1));
+    todo.isCompleted = todo.isChecked;
+    emit(ToDoMarkedAsCompleted(todo));
+  }
+
   void updateUIForCategory(Category category) {
     var todaysToDos = getCategoryTodaysToDos(category);
     emit(TodaysToDoListUpdated(todaysToDos));

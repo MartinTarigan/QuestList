@@ -1,13 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/feat/data/models/todo.dart';
+import 'package:questlist/core/theme/base_color.dart';
 
-class InteractionCubit extends Cubit<bool> {
-  InteractionCubit() : super(false);
+class InteractionCubit extends Cubit<CategoryColorSelected> {
+  InteractionCubit() : super(CategoryColorSelected(BaseColors.primaryBlue, 3));
 
-  void toggleButton(ToDo todo) async {
-    todo.isChecked = !todo.isChecked;
-    await Future.delayed(const Duration(seconds: 1));
-    todo.isCompleted = todo.isChecked;
-    emit(todo.isCompleted);
+  void toggleButton(Color color, int index) {
+    emit(CategoryColorSelected(color, index));
   }
+}
+
+class CategoryColorSelected {
+  final Color selectedColor;
+  final int selectedIndex;
+  CategoryColorSelected(this.selectedColor, this.selectedIndex);
 }
