@@ -57,7 +57,8 @@ class MyApp extends StatelessWidget {
               ),
           DashbordPage.routeName: (context) => DashbordPage(
                 item: ModalRoute.of(context)?.settings.arguments as Item,
-              )
+              ),
+          
         },
       ),
     );

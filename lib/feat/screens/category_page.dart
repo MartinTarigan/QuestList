@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
+import 'package:questlist/core/widgets/fab_todo.dart';
 import 'package:questlist/core/widgets/task_container.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
@@ -208,38 +209,15 @@ class CategoryPage extends StatelessWidget {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 40),
-            width: double.infinity,
-            height: 50,
-            child: FloatingActionButton(
-              backgroundColor: BaseColors.purple,
-              splashColor: BaseColors.primaryBlue,
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AddToDoPage.routeName,
-                  arguments: category,
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Text(
-                      "Add New ToDo",
-                      overflow: TextOverflow.ellipsis,
-                      style: Font.primaryBodyLarge,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(
-                    Icons.edit,
-                    color: BaseColors.white,
-                  ),
-                ],
-              ),
-            ),
+          floatingActionButton: FABToDo(
+            buttonName: "Add New ToDo",
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AddToDoPage.routeName,
+                arguments: category,
+              );
+            },
           ),
         );
       },

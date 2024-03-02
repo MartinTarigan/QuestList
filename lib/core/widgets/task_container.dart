@@ -125,7 +125,7 @@ class _ToDoContainerState extends State<ToDoContainer> {
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.grey.withOpacity(0.8)),
                                   child: Text(
-                                    "Edit",
+                                    "View",
                                     style: Font.primaryBodyMedium,
                                   ),
                                 ),

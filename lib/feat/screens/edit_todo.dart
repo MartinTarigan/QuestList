@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:questlist/core/widgets/fab_todo.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/core/widgets/input.dart';
@@ -141,26 +142,28 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
                       maxLines: 4,
                       formKey: formKey,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<ToDoCubitProvider>().editToDo(
-                              widget.todo,
-                              titleController.text,
-                              dateController.text,
-                              startTimeController.text,
-                              endTimeController.text,
-                              notesController.text,
-                            );
-                        widget.todo.title = titleController.text;
-
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Save"),
-                    ),
                   ],
                 ),
               ),
             ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FABToDo(
+            buttonName: "Edit",
+            onTap: () {
+              context.read<ToDoCubitProvider>().editToDo(
+                    widget.todo,
+                    titleController.text,
+                    dateController.text,
+                    startTimeController.text,
+                    endTimeController.text,
+                    notesController.text,
+                  );
+              widget.todo.title = titleController.text;
+
+              Navigator.pop(context);
+            },
           ),
         );
       },

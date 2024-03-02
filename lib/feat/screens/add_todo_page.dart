@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:questlist/core/widgets/fab_todo.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/core/widgets/input.dart';
@@ -121,29 +122,30 @@ class _AddToDoPageState extends State<AddToDoPage> {
                       maxLines: 4,
                       formKey: formKey,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        print(widget.category.id);
-                        if (formKey.currentState!.validate()) {
-                          context.read<ToDoCubitProvider>().getToDoData(
-                                context,
-                                titleController.text,
-                                widget.category.id,
-                                dateController.text,
-                                startTimeController.text,
-                                endTimeController.text,
-                                notesController.text,
-                              );
-
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text("Add"),
-                    ),
                   ],
                 ),
               ),
             ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FABToDo(
+            buttonName: "Add",
+            onTap: () {
+              if (formKey.currentState!.validate()) {
+                context.read<ToDoCubitProvider>().getToDoData(
+                      context,
+                      titleController.text,
+                      widget.category.id,
+                      dateController.text,
+                      startTimeController.text,
+                      endTimeController.text,
+                      notesController.text,
+                    );
+
+                Navigator.pop(context);
+              }
+            },
           ),
         );
       },
