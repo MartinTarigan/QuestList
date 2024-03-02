@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:questlist/core/constant/typography.dart';
+import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/fab_todo.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
@@ -53,22 +57,60 @@ class _EditToDoPagePageState extends State<EditToDoPage> {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text("Edit Todo"),
-          ),
           body: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: MediaQuery.of(context).padding.top),
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: ClipRect(
+                            child: BackdropFilter(
+                              filter:
+                                  ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 8, top: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: BaseColors.black.withOpacity(0.3),
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: BaseColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            child: Text(
+                              "Edit ToDo",
+                              style: Font.heading2,
+                            ),
+                          ),
+                        ),
+                        const Opacity(
+                          opacity: 0.0,
+                          child: Icon(Icons.arrow_back_ios),
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      height: 30,
+                    ),
                     InputField(
                       controller: titleController,
                       label: "Title",
                       maxLines: 1,
                       formKey: formKey,
-                      autoFocus: true,
                     ),
                     InputField(
                       controller: dateController,
