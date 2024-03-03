@@ -57,4 +57,10 @@ class Font {
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
+
+  static TextStyle splashScreenTextStyle = const TextStyle(
+    color: BaseColors.white,
+    fontSize: 50,
+    fontWeight: FontWeight.w700,
+  );
 }

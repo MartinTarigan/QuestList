@@ -20,7 +20,7 @@ class DashboardWidget extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          DashbordPage.routeName,
+          DashboardPage.routeName,
           arguments: item,
         );
       },

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:questlist/core/constant/assets.dart';
 import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/fab_todo.dart';
@@ -185,25 +186,44 @@ class CategoryPage extends StatelessWidget {
                   "Today ToDo",
                   style: Font.heading2,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount:
-                        todaysToDos.where((todo) => !todo.isCompleted).length,
-                    itemBuilder: (context, index) {
-                      todaysToDos = todaysToDos
-                          .where((todo) => !todo.isCompleted)
-                          .toList();
-                      return ToDoContainer(
-                        todo: todaysToDos[index],
-                      );
-                    },
-                  ),
-                )
+                todaysToDos.isEmpty
+                    ? Container(
+                        padding: const EdgeInsets.symmetric(vertical: 100),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                Assets.emptyList,
+                                scale: 6,
+                              ),
+                              Text(
+                                "Your ToDo List is Empty",
+                                style: Font.heading3,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 10),
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: todaysToDos
+                              .where((todo) => !todo.isCompleted)
+                              .length,
+                          itemBuilder: (context, index) {
+                            todaysToDos = todaysToDos
+                                .where((todo) => !todo.isCompleted)
+                                .toList();
+                            return ToDoContainer(
+                              todo: todaysToDos[index],
+                            );
+                          },
+                        ),
+                      )
               ],
             ),
           ),

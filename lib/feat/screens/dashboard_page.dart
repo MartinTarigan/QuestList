@@ -10,18 +10,17 @@ import 'package:questlist/feat/cubit/interaction.dart';
 import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/dashboard_item.dart';
-import 'package:questlist/feat/data/models/todo.dart';
 
-class DashbordPage extends StatefulWidget {
+class DashboardPage extends StatefulWidget {
   static const routeName = "/dashboard_page";
   final Item item;
-  const DashbordPage({super.key, required this.item});
+  const DashboardPage({super.key, required this.item});
 
   @override
-  State<DashbordPage> createState() => _DashbordPageState();
+  State<DashboardPage> createState() => _DashbordPageState();
 }
 
-class _DashbordPageState extends State<DashbordPage> {
+class _DashbordPageState extends State<DashboardPage> {
   bool showCalendarView = false;
 
   @override
@@ -29,18 +28,17 @@ class _DashbordPageState extends State<DashbordPage> {
     DateTime currentDate = DateTime.now();
     List<DateTime> dateRange = context.read<ToDoCubitProvider>().getDateRange();
     bool isScheduledPage = widget.item.itemName == "Scheduled";
-    var todos = [];
+    var todoList = [];
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        print("abz");
-        todos = context
+        todoList = context
             .read<ToDoCubitProvider>()
             .getToDosByDate(7 ~/ 2, currentDate);
       },
     );
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        List<ToDo> todoList = context
+        todoList = context
             .read<ToDoCubitProvider>()
             .updateDashboardToDoList(widget.item.itemName);
 
@@ -197,7 +195,7 @@ class _DashbordPageState extends State<DashbordPage> {
                                                 .read<InteractionCubit>()
                                                 .toggleButton(
                                                     selectedDateIndex: index);
-                                            todos = context
+                                            todoList = context
                                                 .read<ToDoCubitProvider>()
                                                 .getToDosByDate(
                                                     index, currentDate);
@@ -211,8 +209,8 @@ class _DashbordPageState extends State<DashbordPage> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                  color:
-                                                      BaseColors.secondaryGrey),
+                                                color: BaseColors.secondaryGrey,
+                                              ),
                                             ),
                                             child: Column(
                                               mainAxisAlignment:
@@ -221,14 +219,22 @@ class _DashbordPageState extends State<DashbordPage> {
                                                 Text(
                                                   DateFormat('EEE')
                                                       .format(date),
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontWeight: FontWeight.bold,
+                                                    color:
+                                                        index == selectedIndex
+                                                            ? BaseColors.white
+                                                            : BaseColors.black,
                                                   ),
                                                 ),
                                                 Text(
                                                   DateFormat('d').format(date),
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontWeight: FontWeight.bold,
+                                                    color:
+                                                        index == selectedIndex
+                                                            ? BaseColors.white
+                                                            : BaseColors.black,
                                                   ),
                                                 ),
                                               ],
@@ -247,9 +253,9 @@ class _DashbordPageState extends State<DashbordPage> {
                                           padding: EdgeInsets.zero,
                                           separatorBuilder: (context, index) =>
                                               const SizedBox(height: 10),
-                                          itemCount: todos.length,
+                                          itemCount: todoList.length,
                                           itemBuilder: (context, index) {
-                                            final todo = todos[index];
+                                            final todo = todoList[index];
                                             return ToDoContainer(todo: todo);
                                           },
                                         );

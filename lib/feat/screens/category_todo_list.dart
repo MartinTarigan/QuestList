@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:questlist/core/constant/assets.dart';
 import 'package:questlist/core/constant/typography.dart';
 import 'package:questlist/core/theme/base_color.dart';
 import 'package:questlist/core/widgets/task_container.dart';
@@ -113,18 +114,36 @@ class _TotalToDoCategoryState extends State<TotalToDoCategory> {
                     style: Font.heading2,
                   ),
                 ),
-                Expanded(
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    itemCount: sortedTodoList.length,
-                    itemBuilder: (context, index) {
-                      final todo = sortedTodoList[index];
-                      return ToDoContainer(todo: todo);
-                    },
-                  ),
-                ),
+                sortedTodoList.isEmpty
+                    ? Container(
+                        padding: const EdgeInsets.symmetric(vertical: 100),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                Assets.emptyList,
+                                scale: 6,
+                              ),
+                              Text(
+                                "Your ToDo List is Empty",
+                                style: Font.heading3,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.separated(
+                          padding: EdgeInsets.zero,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 10),
+                          itemCount: sortedTodoList.length,
+                          itemBuilder: (context, index) {
+                            final todo = sortedTodoList[index];
+                            return ToDoContainer(todo: todo);
+                          },
+                        ),
+                      ),
               ],
             ),
           ),

@@ -11,6 +11,7 @@ import 'package:questlist/core/widgets/navbar.dart';
 import 'package:questlist/feat/screens/category_todo_list.dart';
 import 'package:questlist/feat/screens/dashboard_page.dart';
 import 'package:questlist/feat/screens/edit_todo.dart';
+import 'package:questlist/feat/screens/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        initialRoute: PersistentBottomNavPage.routeName,
+        initialRoute: SplashScreen.routeName,
         routes: {
           PersistentBottomNavPage.routeName: (context) =>
               PersistentBottomNavPage(),
@@ -55,9 +56,10 @@ class MyApp extends StatelessWidget {
                 category:
                     ModalRoute.of(context)?.settings.arguments as Category,
               ),
-          DashbordPage.routeName: (context) => DashbordPage(
+          DashboardPage.routeName: (context) => DashboardPage(
                 item: ModalRoute.of(context)?.settings.arguments as Item,
               ),
+          SplashScreen.routeName: (context) => const SplashScreen(),
         },
       ),
     );
