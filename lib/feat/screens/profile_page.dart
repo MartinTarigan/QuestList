@@ -52,10 +52,10 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
-              top: 320,
+            Positioned(
+              top: MediaQuery.of(context).size.height / 2.3 - 50,
               left: 20,
-              child: CircleAvatar(
+              child: const CircleAvatar(
                 radius: 55,
                 backgroundImage: AssetImage(Assets.profilePhoto),
               ),

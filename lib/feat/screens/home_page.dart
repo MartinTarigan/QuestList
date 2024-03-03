@@ -49,22 +49,18 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 25,
-                          top: MediaQuery.of(context).padding.top,
-                          bottom: 20),
+                        left: 25,
+                        top: MediaQuery.of(context).padding.top,
+                        bottom: 20,
+                      ),
                       child: Row(
                         children: [
                           Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: BaseColors.primaryBlue),
-                                child: Text(
-                                  Developer.name.substring(0, 1),
-                                  style: Font.primaryBodyLarge,
-                                ),
+                              const CircleAvatar(
+                                radius: 32,
+                                backgroundImage:
+                                    AssetImage(Assets.profilePhoto),
                               ),
                               const SizedBox(width: 10),
                               Column(
@@ -73,8 +69,7 @@ class _HomePageState extends State<HomePage> {
                                   const Text(
                                     'Welcome,',
                                     style: TextStyle(
-                                      color: BaseColors.tertiaryGrey,
-                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFFC8BFF9),
                                       fontSize: 20,
                                     ),
                                   ),
@@ -146,8 +141,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          right: 25, left: 25, top: 20, bottom: 10),
-                      child: Text('Your Quest', style: Font.heading1),
+                          right: 25, left: 25, top: 15, bottom: 6),
+                      child: Text('Your Todos', style: Font.heading1),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -166,9 +161,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 15,
+                      padding: const EdgeInsets.only(
+                        left: 25,
+                        right: 25,
+                        top: 15,
+                        bottom: 6,
                       ),
                       child: Text(
                         "Your Categories",
@@ -184,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Image.asset(
                                   Assets.emptyList,
-                                  scale: 6,
+                                  scale: 7,
                                 ),
                                 Text(
                                   "Your Category List is Empty",
@@ -195,16 +192,16 @@ class _HomePageState extends State<HomePage> {
                           )
                         : Container(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
-                            height: 170,
-                            child: ListView.builder(
+                            height: 166,
+                            child: ListView.separated(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(width: 15),
                               scrollDirection: Axis.horizontal,
                               itemCount: categoryList.length,
                               itemBuilder: (context, index) {
                                 final category = categoryList[index];
                                 return Container(
                                   width: 250,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: category.color,

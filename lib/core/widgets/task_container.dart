@@ -139,7 +139,7 @@ class _ToDoContainerState extends State<ToDoContainer> {
                                       vertical: 10, horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Colors.red,
+                                    color: BaseColors.red,
                                   ),
                                   child: Text(
                                     "Delete",
