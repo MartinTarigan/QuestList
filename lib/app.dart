@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/feat/cubit/interaction.dart';
-import 'package:questlist/feat/cubit/todo_provider.dart';
-import 'package:questlist/feat/data/models/dashboard_item.dart';
-import 'package:questlist/feat/data/models/todo.dart';
-import 'package:questlist/feat/screens/add_todo_page.dart';
-import 'package:questlist/feat/screens/category_page.dart';
-import 'package:questlist/core/widgets/navbar.dart';
-import 'package:questlist/feat/screens/category_todo_list.dart';
-import 'package:questlist/feat/screens/dashboard_page.dart';
-import 'package:questlist/feat/screens/edit_todo.dart';
-import 'package:questlist/feat/screens/splash_screen.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/feat/cubit/interaction.dart';
+import 'package:Todos/feat/cubit/todo_provider.dart';
+import 'package:Todos/feat/data/models/dashboard_item.dart';
+import 'package:Todos/feat/data/models/todo.dart';
+import 'package:Todos/feat/screens/add_todo_page.dart';
+import 'package:Todos/feat/screens/category_page.dart';
+import 'package:Todos/core/widgets/navbar.dart';
+import 'package:Todos/feat/screens/category_todo_list.dart';
+import 'package:Todos/feat/screens/dashboard_page.dart';
+import 'package:Todos/feat/screens/edit_todo.dart';
+import 'package:Todos/feat/screens/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

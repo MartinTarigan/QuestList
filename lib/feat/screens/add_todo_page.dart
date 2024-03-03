@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:questlist/core/constant/typography.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/core/widgets/fab_todo.dart';
-import 'package:questlist/feat/cubit/todo_provider.dart';
-import 'package:questlist/feat/cubit/todo_state.dart';
-import 'package:questlist/core/widgets/input.dart';
-import 'package:questlist/feat/data/models/todo.dart';
+import 'package:Todos/core/constant/typography.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/core/widgets/fab_todo.dart';
+import 'package:Todos/feat/cubit/todo_provider.dart';
+import 'package:Todos/feat/cubit/todo_state.dart';
+import 'package:Todos/core/widgets/input.dart';
+import 'package:Todos/feat/data/models/todo.dart';
 
 class AddToDoPage extends StatefulWidget {
   static const routeName = "/add_todo";

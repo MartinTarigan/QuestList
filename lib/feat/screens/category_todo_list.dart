@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/core/constant/assets.dart';
-import 'package:questlist/core/constant/typography.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/core/widgets/task_container.dart';
-import 'package:questlist/feat/cubit/todo_provider.dart';
-import 'package:questlist/feat/cubit/todo_state.dart';
-import 'package:questlist/feat/data/models/todo.dart';
+import 'package:Todos/core/constant/assets.dart';
+import 'package:Todos/core/constant/typography.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/core/widgets/task_container.dart';
+import 'package:Todos/feat/cubit/todo_provider.dart';
+import 'package:Todos/feat/cubit/todo_state.dart';
+import 'package:Todos/feat/data/models/todo.dart';
 
 class TotalToDoCategory extends StatefulWidget {
   static const routeName = "/total_todo";

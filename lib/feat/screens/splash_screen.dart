@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:questlist/core/constant/assets.dart';
-import 'package:questlist/core/constant/typography.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/core/widgets/navbar.dart';
+import 'package:Todos/core/constant/assets.dart';
+import 'package:Todos/core/constant/typography.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/core/widgets/navbar.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = "/splash_screen";

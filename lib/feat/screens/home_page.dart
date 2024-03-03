@@ -1,15 +1,15 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/core/constant/assets.dart';
-import 'package:questlist/core/constant/profile.dart';
-import 'package:questlist/core/constant/typography.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/core/widgets/todo_dashboard.dart';
-import 'package:questlist/feat/cubit/todo_provider.dart';
-import 'package:questlist/feat/cubit/todo_state.dart';
-import 'package:questlist/feat/global/todo_list.dart';
-import 'package:questlist/feat/screens/category_page.dart';
+import 'package:Todos/core/constant/assets.dart';
+import 'package:Todos/core/constant/profile.dart';
+import 'package:Todos/core/constant/typography.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/core/widgets/todo_dashboard.dart';
+import 'package:Todos/feat/cubit/todo_provider.dart';
+import 'package:Todos/feat/cubit/todo_state.dart';
+import 'package:Todos/feat/global/todo_list.dart';
+import 'package:Todos/feat/screens/category_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "/home_page";

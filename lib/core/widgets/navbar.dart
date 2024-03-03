@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/core/widgets/fab_homepage.dart';
-import 'package:questlist/core/widgets/fab_profile_page.dart';
-import 'package:questlist/feat/screens/home_page.dart';
-import 'package:questlist/feat/screens/profile_page.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/core/widgets/fab_homepage.dart';
+import 'package:Todos/core/widgets/fab_profile_page.dart';
+import 'package:Todos/feat/screens/home_page.dart';
+import 'package:Todos/feat/screens/profile_page.dart';
 
 class PersistentBottomNavPage extends StatelessWidget {
   static const routeName = "/home_page"; // akses homepage via navbar

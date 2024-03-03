@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/core/theme/base_color.dart';
+import 'package:Todos/core/theme/base_color.dart';
 
 class InteractionCubit extends Cubit<InteractionState> {
   InteractionCubit() : super(InitDataState(BaseColors.primaryBlue, 3, 7 ~/ 2));

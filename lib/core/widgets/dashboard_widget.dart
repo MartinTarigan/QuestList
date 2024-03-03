@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:questlist/core/constant/typography.dart';
-import 'package:questlist/core/theme/base_color.dart';
-import 'package:questlist/feat/data/models/dashboard_item.dart';
-import 'package:questlist/feat/data/models/todo.dart';
-import 'package:questlist/feat/screens/dashboard_page.dart';
+import 'package:Todos/core/constant/typography.dart';
+import 'package:Todos/core/theme/base_color.dart';
+import 'package:Todos/feat/data/models/dashboard_item.dart';
+import 'package:Todos/feat/data/models/todo.dart';
+import 'package:Todos/feat/screens/dashboard_page.dart';
 
 class DashboardWidget extends StatelessWidget {
   final Item item;

@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:questlist/core/utils/shared_pref.dart';
-import 'package:questlist/feat/cubit/todo_state.dart';
-import 'package:questlist/feat/data/models/todo.dart';
-import 'package:questlist/feat/global/todo_list.dart';
+import 'package:Todos/core/utils/shared_pref.dart';
+import 'package:Todos/feat/cubit/todo_state.dart';
+import 'package:Todos/feat/data/models/todo.dart';
+import 'package:Todos/feat/global/todo_list.dart';
 
 class ToDoCubitProvider extends Cubit<ToDoState> {
   ToDoCubitProvider() : super(ToDoInitial()) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:questlist/core/widgets/dashboard_widget.dart';
-import 'package:questlist/feat/cubit/todo_provider.dart';
-import 'package:questlist/feat/cubit/todo_state.dart';
-import 'package:questlist/feat/data/models/dashboard_item.dart';
-import 'package:questlist/feat/global/todo_list.dart';
+import 'package:Todos/core/widgets/dashboard_widget.dart';
+import 'package:Todos/feat/cubit/todo_provider.dart';
+import 'package:Todos/feat/cubit/todo_state.dart';
+import 'package:Todos/feat/data/models/dashboard_item.dart';
+import 'package:Todos/feat/global/todo_list.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
