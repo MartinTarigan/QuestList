@@ -92,7 +92,7 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
 
   void deleteToDo(ToDo todo) async {
     Category targetedCategory = getCategory(todo.categoryID);
-    if(todo.isCompleted) {
+    if (todo.isCompleted) {
       ToDoList.completedToDoList.add(todo);
     }
     targetedCategory.todoList.remove(todo);
@@ -128,7 +128,6 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
         .toList();
   }
 
-
   List<ToDo> getDashboardToDoList(String listName) {
     switch (listName) {
       case "All":
@@ -160,6 +159,17 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     return todos;
   }
 
+  List<ToDo> getToDosByDate(int index, DateTime currentDate) {
+    DateTime selectedDate = currentDate.add(Duration(days: index - 3));
+    String formattedDate = DateFormat('dd/MM/yyyy').format(selectedDate);
+
+    List<ToDo> filteredTodos = getAllToDo()
+        .where((todo) => todo.date?.split(" - ")[0] == formattedDate)
+        .toList();
+
+    return filteredTodos;
+  }
+
   void searchCategories(String searchText) {
     var filteredList = searchText.isEmpty
         ? ToDoList.categoryList
@@ -169,5 +179,15 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
             .toList();
 
     emit(CategorySearchState(filteredCategories: filteredList));
+  }
+
+  List<DateTime> getDateRange() {
+    DateTime currentDate = DateTime.now();
+    List<DateTime> dateRange = [];
+
+    for (int i = -3; i <= 3; i++) {
+      dateRange.add(currentDate.add(Duration(days: i)));
+    }
+    return dateRange;
   }
 }

@@ -37,9 +37,6 @@ class _AddToDoPageState extends State<AddToDoPage> {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
         return Scaffold(
-          // appBar: AppBar(
-          //   title: const Text("Add Todo"),
-          // ),
           body: SingleChildScrollView(
             child: Form(
               key: formKey,

@@ -15,6 +15,7 @@ class FABHomePage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void displayDialog(BuildContext context) async {
+    bool isSelected = true;
     return showDialog(
       context: context,
       builder: (context) {
@@ -42,7 +43,7 @@ class FABHomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                BlocBuilder<InteractionCubit, CategoryColorSelected>(
+                BlocBuilder<InteractionCubit, InteractionState>(
                   builder: (context, state) {
                     return Container(
                       height: 50,
@@ -58,13 +59,15 @@ class FABHomePage extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: colorButtons.length,
                         itemBuilder: (context, index) {
-                          bool isSelected = index == state.selectedIndex;
+                          if (state is InitDataState) {
+                            isSelected = index == state.selectedColorIndex;
+                          }
                           ColorButton colorButton = colorButtons[index];
                           return GestureDetector(
                             onTap: () {
-                              context
-                                  .read<InteractionCubit>()
-                                  .toggleButton(colorButton.color, index);
+                              context.read<InteractionCubit>().toggleButton(
+                                  selectedColorIndex: index,
+                                  color: colorButton.color);
                             },
                             child: Padding(
                               padding:
@@ -112,8 +115,14 @@ class FABHomePage extends StatelessWidget {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   Navigator.pop(context);
-                  final selectedColor =
-                      context.read<InteractionCubit>().state.selectedColor;
+                  final state = context.read<InteractionCubit>().state;
+                  Color selectedColor = BaseColors.primaryBlue;
+                  if (state is InitDataState) {
+                    print("awl");
+                    selectedColor = state.selectedColor;
+                    print(selectedColor.toString());
+                  }
+
                   context.read<ToDoCubitProvider>().addCategory(
                         Category(
                           title: titleController.text,
@@ -125,7 +134,6 @@ class FABHomePage extends StatelessWidget {
               },
               child: const Text('Done'),
             ),
-            
           ],
         );
       },

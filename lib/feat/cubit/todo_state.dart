@@ -77,3 +77,9 @@ class CategorySearchState extends ToDoState {
 
   CategorySearchState({required this.filteredCategories});
 }
+
+class TodosFilteredByDate extends ToDoState {
+  final List<ToDo> filteredTodos;
+
+  TodosFilteredByDate(this.filteredTodos);
+}

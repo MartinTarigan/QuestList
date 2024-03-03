@@ -1,18 +1,24 @@
 import 'dart:ui';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questlist/core/theme/base_color.dart';
 
-class InteractionCubit extends Cubit<CategoryColorSelected> {
-  InteractionCubit() : super(CategoryColorSelected(BaseColors.primaryBlue, 3));
-
-  void toggleButton(Color color, int index) {
-    emit(CategoryColorSelected(color, index));
+class InteractionCubit extends Cubit<InteractionState> {
+  InteractionCubit() : super(InitDataState(BaseColors.primaryBlue, 3, 7 ~/ 2));
+  void toggleButton(
+      {Color color = BaseColors.primaryBlue,
+      int selectedColorIndex = 3,
+      int selectedDateIndex = 3}) {
+    emit(InitDataState(color, selectedColorIndex, selectedDateIndex));
   }
 }
 
-class CategoryColorSelected {
+abstract class InteractionState {}
+
+class InitDataState extends InteractionState {
   final Color selectedColor;
-  final int selectedIndex;
-  CategoryColorSelected(this.selectedColor, this.selectedIndex);
+  final int selectedColorIndex;
+  final int selectedDateIndex;
+
+  InitDataState(
+      this.selectedColor, this.selectedColorIndex, this.selectedDateIndex);
 }

@@ -9,16 +9,21 @@ import 'package:questlist/feat/cubit/todo_provider.dart';
 import 'package:questlist/feat/cubit/todo_state.dart';
 import 'package:questlist/feat/data/models/todo.dart';
 
-class TotalToDoCategory extends StatelessWidget {
+class TotalToDoCategory extends StatefulWidget {
   static const routeName = "/total_todo";
   final Category category;
   const TotalToDoCategory({super.key, required this.category});
 
   @override
+  State<TotalToDoCategory> createState() => _TotalToDoCategoryState();
+}
+
+class _TotalToDoCategoryState extends State<TotalToDoCategory> {
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        final sortedTodoList = List<ToDo>.from(category.todoList)
+        final sortedTodoList = List<ToDo>.from(widget.category.todoList)
           ..sort(
             (a, b) {
               if (!a.isCompleted && b.isCompleted) {
@@ -82,7 +87,7 @@ class TotalToDoCategory extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    category.title,
+                                    widget.category.title,
                                     style: Font.primaryBodyLarge,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
@@ -104,7 +109,7 @@ class TotalToDoCategory extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Text(
-                    "${category.title}'s ToDo List",
+                    "${widget.category.title}'s ToDo List",
                     style: Font.heading2,
                   ),
                 ),

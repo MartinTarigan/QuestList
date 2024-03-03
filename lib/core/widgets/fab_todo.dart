@@ -8,9 +8,8 @@ class FABToDo extends StatelessWidget {
   const FABToDo({
     super.key,
     required this.buttonName,
-    this.onTap, 
+    this.onTap,
   });
-
 
   @override
   Widget build(BuildContext context) {
