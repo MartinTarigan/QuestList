@@ -89,53 +89,41 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: 48,
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: TextField(
-                              controller: searchController,
-                              onChanged: (value) =>
-                                  BlocProvider.of<ToDoCubitProvider>(context)
-                                      .searchCategories(value),
-                              textAlignVertical: TextAlignVertical.bottom,
-                              decoration: const InputDecoration(
-                                fillColor: Color(0xFFFFFFFF),
-                                filled: true,
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF7F8F9),
+                          Expanded(
+                            child: SizedBox(
+                              height: 48,
+                              child: TextField(
+                                controller: searchController,
+                                onChanged: (value) =>
+                                    BlocProvider.of<ToDoCubitProvider>(context)
+                                        .searchCategories(value),
+                                textAlignVertical: TextAlignVertical.bottom,
+                                decoration: const InputDecoration(
+                                  fillColor: Color(0xFFFFFFFF),
+                                  filled: true,
+                                  prefixIcon: Icon(
+                                    Icons.search,
                                   ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFFF7F8F9),
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFF7F8F9)),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFF7F8F9)),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
                                   ),
+                                  hintText: 'Search Categories',
                                 ),
-                                hintText: 'Search Categories',
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: BaseColors.primaryBlue,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Icon(
-                                Icons.filter_alt_rounded,
-                              ),
-                            ),
-                            onTap: () {},
-                          )
                         ],
                       ),
                     ),
@@ -191,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                             )),
                           )
                         : Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             height: 166,
                             child: ListView.separated(
                               separatorBuilder: (context, index) =>
@@ -207,15 +195,21 @@ class _HomePageState extends State<HomePage> {
                                     color: category.color,
                                   ),
                                   child: Row(
+                                    // mainAxisAlignment:
+                                    //     MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(20),
+                                        padding: const EdgeInsets.only(
+                                          top: 20,
+                                          bottom: 20,
+                                          left: 20,
+                                        ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: 100,
+                                              width: 125,
                                               child: Text(
                                                 category.title,
                                                 style: Font.primaryBodyLarge,
@@ -250,8 +244,9 @@ class _HomePageState extends State<HomePage> {
                                                 child: Container(
                                                   padding: const EdgeInsets
                                                       .symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 20),
+                                                    vertical: 5,
+                                                    horizontal: 20,
+                                                  ),
                                                   color: BaseColors.purple,
                                                   child: Text(
                                                     'Detail',
@@ -292,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       const Icon(
                                         Icons.list_alt_rounded,
-                                        size: 110,
+                                        size: 100,
                                         color: Colors.white,
                                       )
                                     ],

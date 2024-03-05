@@ -83,3 +83,10 @@ class TodosFilteredByDate extends ToDoState {
 
   TodosFilteredByDate(this.filteredTodos);
 }
+
+class CompletedToDoListUpdated extends ToDoState {
+  final List<ToDo> completedToDoList;
+  
+  CompletedToDoListUpdated(this.completedToDoList);
+}
+

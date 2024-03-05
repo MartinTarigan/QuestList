@@ -22,4 +22,23 @@ class SharedPreferencesHelper {
       return [];
     }
   }
+
+  static Future<void> saveCompletedToDoList(List<ToDo> completedToDoList) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String completedToDoListJson = jsonEncode(completedToDoList.map((todo) => todo.toJson()).toList());
+    await prefs.setString('completedToDoList', completedToDoListJson);
+  }
+
+  static Future<List<ToDo>> loadCompletedToDoList() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? completedToDoListJson = prefs.getString('completedToDoList');
+    if (completedToDoListJson != null) {
+      List<dynamic> decodedJson = json.decode(completedToDoListJson);
+      List<ToDo> completedToDoList = decodedJson.map((json) => ToDo.fromJson(json)).toList();
+      return completedToDoList;
+    } else {
+      return [];
+    }
+  }
 }
+

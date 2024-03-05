@@ -1,3 +1,4 @@
+import 'package:Todos/feat/cubit/interaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Todos/core/constant/typography.dart';
@@ -10,11 +11,13 @@ import 'package:Todos/feat/screens/edit_todo.dart';
 class ToDoContainer extends StatefulWidget {
   final ToDo todo;
   final bool isScheduledToDo;
+  final bool isCompletedToDo;
 
   const ToDoContainer({
     Key? key,
     required this.todo,
     this.isScheduledToDo = false,
+    this.isCompletedToDo = false,
   }) : super(key: key);
 
   @override
@@ -28,7 +31,8 @@ class _ToDoContainerState extends State<ToDoContainer> {
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        return BlocBuilder<ToDoCubitProvider, ToDoState>(builder: (context, _) {
+        return BlocBuilder<InteractionCubit, InteractionState>(
+            builder: (context, _) {
           return Stack(
             clipBehavior: Clip.none,
             children: [
@@ -75,12 +79,14 @@ class _ToDoContainerState extends State<ToDoContainer> {
                                 context
                                     .read<ToDoCubitProvider>()
                                     .markAsCompleted(widget.todo);
+                                setState(() {
+                                  
+                                });
                                 await Future.delayed(
                                   const Duration(seconds: 1),
                                 );
-                                context
-                                    .read<ToDoCubitProvider>()
-                                    .deleteToDo(widget.todo);
+                                context.read<ToDoCubitProvider>().deleteToDo(
+                                    widget.todo, widget.isCompletedToDo);
                               },
                               child: Container(
                                 width: 40,
@@ -133,7 +139,8 @@ class _ToDoContainerState extends State<ToDoContainer> {
                               GestureDetector(
                                 onTap: () => context
                                     .read<ToDoCubitProvider>()
-                                    .deleteToDo(widget.todo),
+                                    .deleteToDo(
+                                        widget.todo, widget.isCompletedToDo),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 40),

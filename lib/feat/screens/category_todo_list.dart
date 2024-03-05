@@ -45,9 +45,10 @@ class _TotalToDoCategoryState extends State<TotalToDoCategory> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: BaseColors.primaryBlue,
+                    color: widget.category.color,
                   ),
                   child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -58,11 +59,10 @@ class _TotalToDoCategoryState extends State<TotalToDoCategory> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: 100,
                               height: 160,
                               child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
@@ -87,11 +87,14 @@ class _TotalToDoCategoryState extends State<TotalToDoCategory> {
                                       ),
                                     ),
                                   ),
-                                  Text(
-                                    widget.category.title,
-                                    style: Font.primaryBodyLarge,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
+                                  SizedBox(
+                                    width: 180,
+                                    child: Text(
+                                      widget.category.title,
+                                      style: Font.primaryBodyLarge,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -101,7 +104,7 @@ class _TotalToDoCategoryState extends State<TotalToDoCategory> {
                       ),
                       const Icon(
                         Icons.list_alt_rounded,
-                        size: 110,
+                        size: 150,
                         color: Colors.white,
                       )
                     ],

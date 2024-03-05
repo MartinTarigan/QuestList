@@ -35,75 +35,73 @@ class CategoryPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: MediaQuery.of(context).padding.top),
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: category.color,
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 100,
-                                  height: 160,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () => Navigator.pop(context),
-                                        child: ClipRect(
-                                          child: BackdropFilter(
-                                            filter: ImageFilter.blur(
-                                                sigmaX: 5.0, sigmaY: 5.0),
-                                            child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8, top: 10, bottom: 10),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white
-                                                    .withOpacity(0.3),
-                                              ),
-                                              child: const Icon(
-                                                Icons.arrow_back_ios,
-                                                color: BaseColors.white,
-                                              ),
-                                            ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: category.color,
+                  ),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 160,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => Navigator.pop(context),
+                                    child: ClipRect(
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 5.0, sigmaY: 5.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 8, top: 10, bottom: 10),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color:
+                                                Colors.white.withOpacity(0.3),
+                                          ),
+                                          child: const Icon(
+                                            Icons.arrow_back_ios,
+                                            color: BaseColors.white,
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        category.title,
-                                        style: Font.primaryBodyLarge,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    width: 180,
+                                    child: Text(
+                                      category.title,
+                                      style: Font.primaryBodyLarge,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const Icon(
-                            Icons.list_alt_rounded,
-                            size: 110,
-                            color: Colors.white,
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                  ],
+                      const Icon(
+                        Icons.list_alt_rounded,
+                        size: 150,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(

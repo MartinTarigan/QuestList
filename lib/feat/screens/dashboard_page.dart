@@ -28,19 +28,29 @@ class _DashbordPageState extends State<DashboardPage> {
     DateTime currentDate = DateTime.now();
     List<DateTime> dateRange = context.read<ToDoCubitProvider>().getDateRange();
     bool isScheduledPage = widget.item.itemName == "Scheduled";
-    var todoList = [];
+    bool isCompletedPage = widget.item.itemName == "Completed";
+    var quickViewtTodoList = [];
+    var calendarViewTodoList = [];
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        todoList = context
+        calendarViewTodoList = context
             .read<ToDoCubitProvider>()
             .getToDosByDate(7 ~/ 2, currentDate);
+        quickViewtTodoList = context
+            .read<ToDoCubitProvider>()
+            .updateDashboardToDoList(widget.item.itemName);
       },
     );
     return BlocBuilder<ToDoCubitProvider, ToDoState>(
       builder: (context, state) {
-        todoList = context
-            .read<ToDoCubitProvider>()
-            .updateDashboardToDoList(widget.item.itemName);
+        if (state is ToDoListUpdated) {
+          calendarViewTodoList = context
+              .read<ToDoCubitProvider>()
+              .updateDashboardToDoList(widget.item.itemName);
+          quickViewtTodoList = context
+              .read<ToDoCubitProvider>()
+              .updateDashboardToDoList(widget.item.itemName);
+        }
 
         return Scaffold(
           body: Stack(
@@ -59,6 +69,7 @@ class _DashbordPageState extends State<DashboardPage> {
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -85,7 +96,6 @@ class _DashbordPageState extends State<DashboardPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 15),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -99,7 +109,15 @@ class _DashbordPageState extends State<DashboardPage> {
                             style: Font.heading1,
                           ),
                         ],
-                      )
+                      ),
+                      Container(
+                        padding:
+                            const EdgeInsets.only(left: 8, top: 10, bottom: 10),
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.transparent,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -119,54 +137,66 @@ class _DashbordPageState extends State<DashboardPage> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () =>
-                                    setState(() => showCalendarView = false),
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: BaseColors.primaryBlue,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
+                      isScheduledPage
+                          ? SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => setState(
+                                        () => showCalendarView = false,
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: const BoxDecoration(
+                                          color: BaseColors.primaryBlue,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20),
+                                          ),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'Quick View',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      'Quick View',
-                                      style: Font.primaryBodyLarge,
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => setState(() {
+                                        showCalendarView = true;
+                                      }),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: const BoxDecoration(
+                                          color: BaseColors.red,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20),
+                                          ),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'Calendar View',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => setState(() {
-                                  showCalendarView = true;
-                                }),
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: BaseColors.red,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Calendar View',
-                                      style: Font.primaryBodyLarge,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            )
+                          : Container(),
                       const SizedBox(height: 20),
                       showCalendarView
                           ? Expanded(child:
@@ -195,7 +225,7 @@ class _DashbordPageState extends State<DashboardPage> {
                                                 .read<InteractionCubit>()
                                                 .toggleButton(
                                                     selectedDateIndex: index);
-                                            todoList = context
+                                            calendarViewTodoList = context
                                                 .read<ToDoCubitProvider>()
                                                 .getToDosByDate(
                                                     index, currentDate);
@@ -253,10 +283,15 @@ class _DashbordPageState extends State<DashboardPage> {
                                           padding: EdgeInsets.zero,
                                           separatorBuilder: (context, index) =>
                                               const SizedBox(height: 10),
-                                          itemCount: todoList.length,
+                                          itemCount:
+                                              calendarViewTodoList.length,
                                           itemBuilder: (context, index) {
-                                            final todo = todoList[index];
-                                            return ToDoContainer(todo: todo);
+                                            final todo =
+                                                calendarViewTodoList[index];
+                                            return ToDoContainer(
+                                              todo: todo,
+                                              isCompletedToDo: isCompletedPage,
+                                            );
                                           },
                                         );
                                       },
@@ -270,9 +305,9 @@ class _DashbordPageState extends State<DashboardPage> {
                                 padding: EdgeInsets.zero,
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 10),
-                                itemCount: todoList.length,
+                                itemCount: quickViewtTodoList.length,
                                 itemBuilder: (context, index) {
-                                  final todo = todoList[index];
+                                  final todo = quickViewtTodoList[index];
                                   String date =
                                       todo.date.toString().split(" - ")[0];
                                   DateTime dateTime =
@@ -290,6 +325,7 @@ class _DashbordPageState extends State<DashboardPage> {
                                         todo: todo,
                                         isScheduledToDo:
                                             widget.item.itemName == "Scheduled",
+                                        isCompletedToDo: isCompletedPage,
                                       ),
                                     ],
                                   );

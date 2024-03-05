@@ -9,14 +9,19 @@ import 'package:Todos/feat/global/todo_list.dart';
 class ToDoCubitProvider extends Cubit<ToDoState> {
   ToDoCubitProvider() : super(ToDoInitial()) {
     loadCategories();
+    loadCompletedToDoList();
   }
-
-  List<Category>? originalCategoryList;
 
   Future<void> loadCategories() async {
     List<Category> categories = await SharedPreferencesHelper.loadCategories();
     ToDoList.categoryList = categories;
     emit(CategoryListUpdated(List.from(categories)));
+  }
+
+  Future<void> loadCompletedToDoList() async {
+    List<ToDo> todoList = await SharedPreferencesHelper.loadCompletedToDoList();
+    ToDoList.completedToDoList = todoList;
+    emit(CompletedToDoListUpdated(todoList));
   }
 
   void addCategory(Category category) async {
@@ -27,7 +32,11 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
 
   void deleteCategory(Category category) async {
     ToDoList.categoryList.remove(category);
+    ToDoList.completedToDoList
+        .removeWhere((todo) => todo.categoryID == category.id);
     await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
+    await SharedPreferencesHelper.saveCompletedToDoList(
+        ToDoList.completedToDoList);
     emit(CategoryListUpdated(List.from(ToDoList.categoryList)));
   }
 
@@ -90,10 +99,17 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
   }
 
-  void deleteToDo(ToDo todo) async {
+  void deleteToDo(ToDo todo, bool isCompletedPage) async {
+    print(isCompletedPage);
     Category targetedCategory = getCategory(todo.categoryID);
-    if (todo.isCompleted) {
+    if (todo.isCompleted && !isCompletedPage) {
       ToDoList.completedToDoList.add(todo);
+      await SharedPreferencesHelper.saveCompletedToDoList(
+          ToDoList.completedToDoList);
+      emit(ToDoListUpdated(List.from(targetedCategory.todoList)));
+    }
+    if (isCompletedPage) {
+      ToDoList.completedToDoList.remove(todo);
     }
     targetedCategory.todoList.remove(todo);
     await SharedPreferencesHelper.saveCategories(ToDoList.categoryList);
@@ -190,4 +206,6 @@ class ToDoCubitProvider extends Cubit<ToDoState> {
     }
     return dateRange;
   }
+
+
 }
